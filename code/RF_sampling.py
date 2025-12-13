@@ -1,0 +1,46 @@
+import pandas as pd
+import numpy as np
+import time
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split, cross_val_score, GridSearchCV
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import precision_score, recall_score, f1_score, confusion_matrix, classification_report, ConfusionMatrixDisplay
+from imblearn.pipeline import Pipeline
+from imblearn.over_sampling import RandomOverSampler,SMOTE
+from imblearn.under_sampling import RandomUnderSampler
+
+df = pd.read_csv('../data/Datasheet.csv')
+X = df.drop(columns=['team', 'FGA', 'MOV', 'NRtg', '3PAr', 'rounds'])
+y = df['rounds']
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
+num_features = ('MP', 'FG%', '3PA', '3P%', '2PA', '2P%', 'FTA', 'FT%', 'ORB', 'DRB', 'AST', 'STL', 'BLK', 'TOV', 'PF', 'PTS', 'Age', 'W', 'L', 
+	'SOS', 'SRS', 'ORtg', 'DRtg', 'Pace', 'FTr', 'TS%', 'Offense_eFG%', 'Offense_TOV%', 'Offense_ORB%', 'Offense_FT/FGA', 'Defense_eFG%', 'Defense_TOV%', 'Defense_ORB%', 'Defense_FT/FGA')
+preprocessor = ColumnTransformer([('num', StandardScaler(), num_features)], remainder='passthrough')
+
+clf = Pipeline([
+	('preprocessor', preprocessor),
+	('sampler', RandomOverSampler()),
+	('model', RandomForestClassifier(random_state=42))
+	])
+
+param_grid ={
+		'sampler': [
+		RandomOverSampler(random_state=42),
+        SMOTE(random_state=42),
+        RandomUnderSampler(random_state=42)
+        ]
+	}
+
+grid_search = GridSearchCV(
+	estimator = clf,
+	param_grid = param_grid,
+	scoring = 'f1_weighted',
+	cv = 5,
+	)
+
+grid_search.fit(X_train, y_train)
+print(grid_search.best_params_)
+print('CV score:', np.round(grid_search.best_score_, 4))
