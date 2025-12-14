@@ -8,11 +8,11 @@ This project was developed using **Python 3.13.7** and requires the following li
 
 ### How to Run the Project
 This project consists of 3 main stages: Data Collection, Data Exploration, and Machine Learning Experiments.
-1. Data Collection(Optional)
+#### 1. Data Collection(Optional)
 
-   Note: All datasets are provided in the data directory. You could use them directly.
-
-   To colloect the data from online sources
+Note: All datasets are provided in the data directory. You could use them directly.
+   
+To colloect the data from online sources
 ```bat
 python3 get_label.py
 python3 awards.py
@@ -22,12 +22,12 @@ python3 get_features_teams_stats.py
 ```
 Python3 DataSheet.py
 ```
-2. Data Exploration
+#### 2. Data Exploration
 To expolore the data distribution and features correlations
 ```
 python3 eda.py
 ```
-4. Machine Learning Experiments
+#### 3. Machine Learning Experiments
 Initial run:
 ```
 python3 training_baseline.py
