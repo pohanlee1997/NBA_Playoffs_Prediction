@@ -9,7 +9,8 @@ This project was developed using **Python 3.13.7** and requires the following li
 ### How to Run the Project
 This project consists of 3 main stages: Data Collection, Data Exploration, and Machine Learning Experiments.
 1. Data Collection(Optional)
-   Note: All datasets are provided in the data/ directory. You may directly use them.
+
+   Note: All datasets are provided in the data directory. You could use them directly.
 
    To colloect the data from online sources
 ```bat
@@ -41,7 +42,7 @@ python3 LR_sampled_tuning.py
 Final Logistic Regression results:
 ```
 python3 LR_tuned.py
-python3 LR_samplid.py
+python3 LR_sampled.py
 python3 LR_sampled_tuned.py
 ```
 Random Forest:
